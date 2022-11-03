@@ -1,10 +1,11 @@
-from flask import Flask, make_response, jsonify, request, render_template
+from flask import Flask, make_response, jsonify, request, render_template, send_from_directory
 import requests
 from logger import reqLog, backLogs
 import json
+from flask_cors import CORS
 
 # PORT for the server to listen. Use env PORT if available else 5500
-PORT = 5500
+PORT = 3000
 
 # Items to get
 filterItems = [
@@ -20,17 +21,29 @@ filterItems = [
 
 # Instantiate Flask app
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/', methods=["GET"])
 def home():
    return render_template('index.html')
 
+@app.route('/<path:path>', methods=["GET"])
+def serverFiles(path):
+   return send_from_directory('templates', path)
+
 # Get Current IP Information Route
-@app.route('/ip/info', methods=["GET"])
+@app.route('/ip/info', methods=["POST"])
 def getMyIP():
    reqLog(request.path, request.method)
+   
+   my_json = request.data.decode('utf8').replace("'", '"')
+   data = json.loads(my_json)
+   # s = json.dumps(data, indent=4, sort_keys=True)
+   myIP = data['data']
+   
+
    # Fetch data from ipapi.co REST API
-   data = requests.get('https://ipapi.co/json/')
+   data = requests.post(f'https://ipapi.co/{myIP}/json/')
    myInfo = data.json()
    
    if(data.status_code >= 400):
@@ -43,30 +56,6 @@ def getMyIP():
       if(key in filterItems):
          filteredIpInfo.update({key: myInfo[key]})
 
-   # Response
-   backLogs(filteredIpInfo, request.path, request.method)
-   res = make_response(filteredIpInfo, 200)
-   
-   return res  
-
-# Get Specific IP Information Route
-@app.route('/ip/info/<ip>', methods=["GET"])
-def getIP(ip):
-   reqLog(request.path, request.method)
-   # Fetch data from ipapi.co REST API
-   data = requests.get(f'https://ipapi.co/{ip}/json/')
-   myInfo = data.json()
-   
-   if(data.status_code >= 400):
-      res = make_response(myInfo, data.status_code)
-      return res
-
-   # Filter fetched data using filterItems
-   filteredIpInfo = {}
-   for key in myInfo:
-      if(key in filterItems):
-         filteredIpInfo.update({key: myInfo[key]})
-   
    # Response
    backLogs(filteredIpInfo, request.path, request.method)
    res = make_response(filteredIpInfo, 200)
@@ -92,4 +81,4 @@ def printBackLog():
 
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=PORT)
+   app.run(host="0.0.0.0", port=PORT, debug=True)

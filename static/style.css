@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Roboto&display=swap');
+
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+html {
+   font: 1.5rem "Roboto", sans-serif;
+   scroll-behavior: smooth;
+}
+
+img {
+   display: block;
+   max-width: 100%;
+   height: auto;
+}
+
+body {
+   min-height: 100vh;
+   display: flex;
+   flex-flow: column nowrap;
+}
+
+header section{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 1rem;
+   background-color: #333;
+}
+
+header nav ul{
+   display: flex;
+   flex-flow: row nowrap;
+   justify-content: center;
+   list-style: none;
+}
+
+header nav ul li{
+   padding: 1rem;
+}
+
+header nav ul li a{
+   text-decoration: none;
+   color: #333;
+}
+
+header nav ul li a:hover{
+   text-decoration: underline;
+}
+
+header section h1{
+   color: red;
+   letter-spacing: 0.5rem
+}
+
+main {
+   display: flex;
+   flex-flow: column nowrap;
+   justify-content: center;
+   align-items: center;
+   flex-grow: 1;
+   gap: 1rem;
+}
+
+main form {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 1rem;
+   border: 1px solid black;
+   padding: 1rem;
+   border-radius: 10px;
+   height: fit-content;
+}
+
+main form input{
+   padding: 10px;
+   border-radius: 5px;
+   outline: none;
+}
+
+main form button{
+   padding: 5px;
+   padding-left: 10px;
+   padding-right: 10px;
+   border-radius: 10px;
+   border: 1px solid black;
+   cursor: pointer;
+   font-weight: bold;
+}
+
+#backlog {
+   display: flex;
+   flex-flow: column nowrap;
+   flex-grow: 1;
+   padding: 1rem;
+}
+
+#backlog ul{
+   list-style-type: none;
+}
+
+.result {
+   list-style-type: none;
+   text-align: center;
+   line-height: 2em;
+}
+
+footer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #333;
+   padding: 0.2rem;
+   color: red;
+}

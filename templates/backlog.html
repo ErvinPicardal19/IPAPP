@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Backlog</title>
+   <link rel="stylesheet" href="../static/style.css">
+   <link rel="icon" href="../static/ipadd_icon.png" type="image/x-icon">
+</head>
+<body>
+   <header>
+      <section>
+          <h1>IPAPP</h1>
+          <img src="../static/ipadd_icon.png" alt="ipadd_icon.png" width="30" height="30">
+      </section>
+      <nav>
+          <ul>
+              <li>
+                  <a href="index.html">Get My IP Address Info</a>
+              </li>
+              <li>
+                  <a href="backlog.html">Backlog</a>
+              </li>
+          </ul>
+      </nav>
+  </header>
+  <div id="backlog">
+      
+  </div>
+  <footer>
+      <p>
+          &copy; Team 2
+      </p>
+  </footer>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+      const backlog = document.getElementById('backlog')
+      const button = document.getElementById('submitButton')
+      // const input = document.getElementById('ipadd')
+
+      window.addEventListener("load", async(e) =>{
+          
+         
+          try{
+               const logs = await axios.get('http://localhost:3000/ip/backlog');
+               
+               console.log(logs.data.length ? true : false);
+
+
+               const list = logs.data.map((log) => {
+                  // console.log(log)
+                  const myItems =Object.entries(log.body).map((item) => {
+                     console.log(item);
+                     return `<li><a>${item[0]}:${item[1]}</a></li>`
+                  }).join('')
+
+
+                  return `<ul>${myItems}</ul>`
+               })
+
+               // console.log(list.toString())
+
+               backlog.innerHTML = list
+
+          } catch(e) {
+              console.error(e);
+              result.innerHTML = `<div class="alert alert-danger">Can't Fetch Data</div>`
+          }
+      })
+      
+  </script>
+</body>
+</html>
