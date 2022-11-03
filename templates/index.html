@@ -52,33 +52,41 @@
         const button = document.getElementById('submitButton')
         const input = document.getElementById('ipadd')
 
-        button.addEventListener("click", async(e) =>{
-            e.preventDefault();
-            let ip = '';
-            
-            try{
-                if(!input.value) {
-                    ip = await axios.get('https://api.ipify.org/');
-                }
-                ip = input.value;
-
-
-                const {data} = await axios.post('http://localhost:3000/ip/info', {
-                    data: ip.data ? ip.data : ip
-                });
-                console.log(data);
-                
-                const infos = Object.entries(data).map((info) => {
+        function appendInfo(data){
+            const infos = Object.entries(data).map((info) => {
                     return `<li><a>${info[0]}:${info[1]}</a></li>`
                 })
 
                 
                 result.innerHTML = infos.join('')
+        }
+
+        button.addEventListener("click", async(e) =>{
+            e.preventDefault();
+            
+            try{
+                const {data} = await axios.post('http://localhost:3000/ip/info', {
+                    data: input.value
+                });
+                console.log(data);
+                
+                appendInfo(data);
 
             } catch(e) {
                 console.error(e);
                 result.innerHTML = `<div class="alert alert-danger">Too Much Request wait for a while.</div>`
             }
+        })
+
+        window.addEventListener('load', async(e) => {
+            const ip = await axios.get('https://api.ipify.org/');
+
+            const {data} = await axios.post('http://localhost:3000/ip/info', {
+                data: ip.data
+            });
+            console.log(data);
+                    
+            appendInfo(data);
         })
         
     </script>
