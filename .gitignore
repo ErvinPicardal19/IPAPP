@@ -1,6 +1,5 @@
 .env
 
-logs/*
 logs/*.json
 logs/*.log
 

@@ -1,16 +1,10 @@
-import os
-from py_dotenv import read_dotenv
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, render_template
 import requests
 from logger import reqLog, backLogs
 import json
 
-# .env
-DOTENV_PATH = os.path.join(os.path.dirname(__file__), '.env')
-read_dotenv(DOTENV_PATH)
-
 # PORT for the server to listen. Use env PORT if available else 5500
-PORT = os.getenv("PORT") or 5500
+PORT = 5500
 
 # Items to get
 filterItems = [
@@ -26,6 +20,10 @@ filterItems = [
 
 # Instantiate Flask app
 app = Flask(__name__)
+
+@app.route('/', methods=["GET"])
+def home():
+   return render_template('index.html')
 
 # Get Current IP Information Route
 @app.route('/ip/info', methods=["GET"])

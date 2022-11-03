@@ -7,7 +7,7 @@ cp server.py build/.
 cp logger.py build/.
 
 echo "FROM python" >> build/Dockerfile
-echo "RUN pip install flask" >> build/Dockerfile
+echo "RUN pip install flask py_dotenv" >> build/Dockerfile
 echo "COPY  ./logs /home/IPAPP/logs/" >> build/Dockerfile
 # echo "COPY  ./templates /home/IPAPP/templates/" >> build/Dockerfile
 echo "COPY server.py /home/IPAPP/" >> build/Dockerfile
