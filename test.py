@@ -14,6 +14,10 @@ class ApiTest(unittest.TestCase):
    def test_get_ip_info(self):
       r = requests.post(f'{ApiTest.BASE_URL}/ip/info', json=ApiTest.TEST_IP)
       self.assertEqual(r.status_code, 200)
+   
+   def test_get_backlog(self):
+      r = requests.get(f'{ApiTest.BASE_URL}/ip/backlog')
+      self.assertEqual(r.status_code, 200)
       
 
 if __name__ == '__main__':

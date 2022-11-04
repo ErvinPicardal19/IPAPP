@@ -109,6 +109,10 @@ main form button{
    line-height: 2em;
 }
 
+.alert {
+   color: red;
+}
+
 footer {
    display: flex;
    justify-content: center;

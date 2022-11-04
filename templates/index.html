@@ -74,19 +74,24 @@
 
             } catch(e) {
                 console.error(e);
-                result.innerHTML = `<div class="alert alert-danger">Too Much Request wait for a while.</div>`
+                result.innerHTML = `<div class="alert">${e}</div>`
             }
         })
 
         window.addEventListener('load', async(e) => {
-            const ip = await axios.get('https://api.ipify.org/');
+            try{
+                const ip = await axios.get('https://api.ipify.org/');
 
-            const {data} = await axios.post('http://localhost:3000/ip/info', {
-                data: ip.data
-            });
-            console.log(data);
-                    
-            appendInfo(data);
+                const {data} = await axios.post('http://localhost:3000/ip/info', {
+                    data: ip.data
+                });
+                console.log(data);
+                        
+                appendInfo(data);
+            } catch(e) {
+                console.log(e);
+                result.innerHTML = `<div class="alert">${e}</div>`
+            }
         })
         
     </script>

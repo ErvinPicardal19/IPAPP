@@ -23,5 +23,5 @@ echo "CMD python3 /home/IPAPP/server.py" >> build/Dockerfile
 
 cd build
 docker build -t ipapp .
-docker run -t -d -p 3000:3000 --name apprunning ipapp
+docker run -t -p 3000:3000 --name apprunning ipapp
 docker ps -a

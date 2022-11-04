@@ -3,6 +3,7 @@ import requests
 from logger import reqLog, backLogs
 import json
 from flask_cors import CORS
+import os
 
 # PORT for the server to listen. Use env PORT if available else 5500
 PORT = 3000
@@ -46,9 +47,8 @@ def getMyIP():
    data = requests.post(f'https://ipapi.co/{myIP}/json/')
    myInfo = data.json()
    
-   if(data.status_code >= 400):
-      res = make_response(myInfo, data.status_code)
-      return res
+   if(data.status_code == 429): return make_response(myInfo, data.status_code)
+   if(data.status_code >= 400): return make_response(myInfo, data.status_code)
 
    # Filter fetched data using filterItems
    filteredIpInfo = {}
@@ -67,7 +67,7 @@ def getMyIP():
 def printBackLog():
    reqLog(request.path, request.method)
    # Update Backlog
-   with open ('./logs/backlog.json', 'r') as jsonLog:
+   with open ('/home/IPAPP/logs/backlog.json', 'r') as jsonLog:
       backlog = json.loads(jsonLog.readline())
    
    for i,log in enumerate(backlog):
@@ -81,4 +81,4 @@ def printBackLog():
 
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=PORT, debug=True)
+   app.run(host="0.0.0.0", port=PORT)
