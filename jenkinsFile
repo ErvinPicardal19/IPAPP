@@ -31,12 +31,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the application....'
+                sh "sudo nohup python3 server.py > log.txt 2>&1 &"
             }
         }
     }
     post {
         success {
-            sh "sudo nohup python3 server.py > log.txt 2>&1 &"
+            echo "Flask Application Up and running!!"
         }
         failure {
             echo 'Build stage failed'
