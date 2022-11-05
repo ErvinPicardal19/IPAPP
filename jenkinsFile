@@ -29,13 +29,9 @@ pipeline {
             }
          }
         stage('Deploy') {
-            parallel{
-                stage('Deploy'){
-                    steps {
-                        echo 'Deploying the application....'
-                        sh "python3 server.py"
-                    }
-                }
+            steps {
+                echo 'Deploying the application....'
+                sh "sudo nohup python3 server.py > log.txt 2>&1 &"
             }
         }
     }
