@@ -29,9 +29,13 @@ pipeline {
             }
          }
         stage('Deploy') {
-            steps {
-                echo 'Deploying the application....'
-                sh "bash deploy.sh"
+            parallel{
+                stage('Deploy'){
+                    steps {
+                        echo 'Deploying the application....'
+                        sh "python3 server.py"
+                    }
+                }
             }
         }
     }
