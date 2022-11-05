@@ -36,7 +36,7 @@ pipeline {
     }
     post {
         success {
-            sh "python3 server.py"
+            sh "sudo nohup python3 server.py > log.txt 2>&1 &"
         }
         failure {
             echo 'Build stage failed'
