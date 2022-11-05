@@ -28,13 +28,21 @@ pipeline {
                '''
             }
          }
-        stage('Deliver') {
+        stage('Deploy') {
             steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
+                echo 'Deploying the application....'
             }
         }
     }
+    post {
+        success {
+            
+            sh "sudo nohup python3 server.py > log.txt 2>&1 &"
+            echo "Flask Application Up and running!!"
+        }
+        failure {
+            echo 'Build stage failed'
+            error('Stopping early…')
+        }
+      }
 }

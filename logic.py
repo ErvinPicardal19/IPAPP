@@ -47,11 +47,5 @@ class printBackLog(Resource):
       with open ('./logs/backlog.json', 'r') as jsonLog:
          backlog = json.loads(jsonLog.readline())
       
-      for i,log in enumerate(backlog):
-         print(f'LOG ITEM {i}')
-         for key in log:
-            print(f'{key}: {log[key]}')
-         print('\n')   
-      
       # Response
       return make_response(jsonify(backlog), 200)
