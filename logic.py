@@ -18,13 +18,9 @@ class getMyIP(Resource):
    
    def post(self):
       reqLog(request.path, request.method)
-   
-      my_json = request.data.decode('utf8').replace("'", '"')
-      data = json.loads(my_json)
-      # s = json.dumps(data, indent=4, sort_keys=True)
-      myIP = data['data']
-      
 
+      myIP = request.get_json()["data"]
+      # print(myIP)
       # Fetch data from ipapi.co REST API
       data = requests.post(f'https://ipapi.co/{myIP}/json/')
       myInfo = data.json()

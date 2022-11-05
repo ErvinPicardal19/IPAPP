@@ -12,7 +12,7 @@ pipeline {
             parallel {
                stage('Build') {
                   steps {
-                     sh 'echo "building the repo"'
+                     sh 'Building Repo and installing dependencies'
                      sh '''
                      pip install -r requirements.txt
                      '''
@@ -21,24 +21,13 @@ pipeline {
             }
         }
         stage('Test') {
-            parallel{
-               stage('Running server.py') {
-                  steps {
-                     sh '''
-                     python3 server.py
-                     '''
-                  }
-               }
-               stage('Running test.py') {
-                  steps {
-                     sh '''
-                     ps
-                     python3 test.py
-                     '''
-                  }
-               }
+            steps{
+               echo 'Testing....'
+               sh '''
+               python3 test.py
+               '''
             }
-        }
+         }
         stage('Deliver') {
             steps {
                 echo 'Deliver....'

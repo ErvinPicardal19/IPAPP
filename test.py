@@ -1,6 +1,6 @@
 import unittest
 import requests
-import server
+from server import app
 
 class ApiTest(unittest.TestCase):
    BASE_URL = "http://localhost:3000"
@@ -8,18 +8,24 @@ class ApiTest(unittest.TestCase):
       "data": '8.8.8.8'
    }
    
+   def setUp(self):
+        app.testing = True
+        self.app = app.test_client()
+        
    def test_home(self):
-      r = requests.get(ApiTest.BASE_URL)
-      self.assertEqual(r.status_code, 200)
-      
+      rv = self.app.get('/')
+      self.assertEqual(rv.status, '200 OK')
+
    def test_get_ip_info(self):
-      r = requests.post(f'{ApiTest.BASE_URL}/ip/info', json=ApiTest.TEST_IP)
-      self.assertEqual(r.status_code, 200)
-   
-   def test_get_backlog(self):
-      r = requests.get(f'{ApiTest.BASE_URL}/ip/backlog')
-      self.assertEqual(r.status_code, 200)
+      rv = self.app.post('/ip/info', json={
+         "data": '8.8.8.8'
+      })
+      self.assertEqual(rv.status, '200 OK')
       
+   def test_get_backlog(self):
+      rv = self.app.get('/ip/backlog')
+      self.assertEqual(rv.status, '200 OK')
+
 
 if __name__ == '__main__':
    unittest.main()
