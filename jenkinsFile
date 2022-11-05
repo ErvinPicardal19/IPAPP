@@ -5,7 +5,7 @@ pipeline {
             }
       }
     triggers {
-        pollSCM '* * * * *'
+        pollSCM 'H * * * *'
     }
     stages {
         stage('Build') {
@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the application....'
-                sh "sudo nohup python3 server.py > log.txt 2>&1 &"
+                sh "sudo nohup python3 server.py > log.txt 2>&1 & sleep 1"
             }
         }
     }
