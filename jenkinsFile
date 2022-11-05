@@ -9,20 +9,35 @@ pipeline {
     }
     stages {
         stage('Build') {
-            steps {
-                echo "Building.."
-                sh '''
-                echo "doing build stuff.."
-                bash build.sh
-                '''
+            parallel {
+               stage('Build') {
+                  steps {
+                     sh 'echo "building the repo"'
+                     sh '''
+                     pip install -r requirements.txt
+                     '''
+                  }
+               }
             }
         }
         stage('Test') {
-            steps {
-                echo "Testing.."
-                sh '''
-                echo "doing test stuff.."
-                '''
+            parallel{
+               stage('Running server.py') {
+                  steps {
+                     sh '''
+                     python3 server.py
+                     '''
+                  }
+               }
+               stage('Running test.py') {
+                  steps {
+                     sh '''
+                     ps
+                     python3 test.py
+                     input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
+                     '''
+                  }
+               }
             }
         }
         stage('Deliver') {

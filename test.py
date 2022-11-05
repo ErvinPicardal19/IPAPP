@@ -1,5 +1,6 @@
 import unittest
 import requests
+import server
 
 class ApiTest(unittest.TestCase):
    BASE_URL = "http://localhost:3000"
