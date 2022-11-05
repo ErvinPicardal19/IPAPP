@@ -36,9 +36,7 @@ pipeline {
     }
     post {
         success {
-            
-            sh "sudo nohup python3 server.py > log.txt 2>&1 &"
-            echo "Flask Application Up and running!!"
+            sh "python3 server.py"
         }
         failure {
             echo 'Build stage failed'
