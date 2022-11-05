@@ -11,7 +11,11 @@ cp -r static/* build/static/.
 cp server.py build/.
 cp logger.py build/.
 
-echo "FROM python" >> build/Dockerfile
+echo "FROM jenkins/agent:alpine-jdk11" >> build/Dockerfile
+echo "USER root" >> build/Dockerfile
+echo "RUN apk add python3" >> build/Dockerfile
+echo "RUN apk add py3-pip" >> build/Dockerfile
+echo "USER jenkins" >> build/Dockerfile
 echo "RUN pip install flask flask_cors requests" >> build/Dockerfile
 echo "COPY ./logs /home/IPAPP/logs/" >> build/Dockerfile
 echo "COPY ./templates /home/IPAPP/templates/" >> build/Dockerfile
@@ -23,5 +27,5 @@ echo "CMD python3 /home/IPAPP/server.py" >> build/Dockerfile
 
 cd build
 docker build -t ipapp .
-docker run -t -p 3000:3000 --name apprunning ipapp
+docker run -t -d -p 3000:3000 --name breakout ipapp
 docker ps -a
