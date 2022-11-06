@@ -14,6 +14,8 @@ class ApiTest(unittest.TestCase):
         
    def test_home(self):
       rv = self.app.get('/')
+      if rv.status == '429 TOO MANY REQUESTS':
+         self.assertEqual(rv.status, '429 TOO MANY REQUESTS')
       self.assertEqual(rv.status, '200 OK')
 
    def test_get_ip_info(self):
