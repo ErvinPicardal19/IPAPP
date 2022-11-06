@@ -38,7 +38,7 @@ pipeline {
     post {
         success {
             echo "Flask Application Up and running!!"
-            bash
+            sh 'bash'
         }
         failure {
             echo 'Build stage failed'
