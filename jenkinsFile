@@ -1,44 +1,36 @@
 pipeline {
-    agent { 
-        node {
-            label 'IPAPP-DOCKER-AGENT-PYTHON'
-            }
-      }
     triggers {
-        pollSCM 'H * * * *'
+        pollSCM 'H/5 * * * *'
     }
     stages {
+        stage('Preparation') {
+            catchError(buildResult: 'SUCCESS') {
+                sh 'docker stop samplerunning'
+                sh 'docker rm samplerunning'
+            }
+        }
         stage('Build') {
-            parallel {
-               stage('Build') {
-                  steps {
-                     echo 'Building Repo and installing dependencies'
-                     sh '''
-                     pip install -r requirements.txt
-                     '''
-                  }
-               }
+            steps {
+                echo 'Installing dependencies'
+                build "Build_IPAPP"
             }
         }
         stage('Test') {
             steps{
                echo 'Testing....'
-               sh '''
-               python3 test.py
-               '''
+               build "TEST_IPAPP"
             }
          }
         stage('Deploy') {
             steps {
                 echo 'Deploying the application....'
-                sh "sudo nohup python3 server.py > log.txt 2>&1 &"
             }
         }
     }
     post {
         success {
+            build "DEPLOY_IPAPP"
             echo "Flask Application Up and running!!"
-            sh 'bash'
         }
         failure {
             echo 'Build stage failed'
