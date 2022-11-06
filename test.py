@@ -1,5 +1,4 @@
 import unittest
-import requests
 from server import app
 
 class ApiTest(unittest.TestCase):
@@ -20,6 +19,9 @@ class ApiTest(unittest.TestCase):
       rv = self.app.post('/ip/info', json={
          "data": '8.8.8.8'
       })
+      if(rv.status == '429 TOO MANY REQUESTS'):
+         self.assertEqual(rv.status, '429 TOO MANY REQUESTS')
+         return
       self.assertEqual(rv.status, '200 OK')
       
    def test_get_backlog(self):
