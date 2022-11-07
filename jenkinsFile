@@ -5,7 +5,8 @@ pipeline {
     }
     stages {
         stage('Preperation') {
-            script {
+            steps{
+                script {
                     def jobBuild = build job: 'DEPLOY_IPAPP', propagate: false
 
                     def jobResult = jobBuild.getResult()
@@ -21,6 +22,7 @@ pipeline {
                         sh 'docker rm samplerunning'
                     }
                 }
+            }
         }
         stage('Build') {
             steps {
