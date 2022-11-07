@@ -44,8 +44,6 @@
       // const input = document.getElementById('ipadd')
 
       window.addEventListener("load", async(e) =>{
-          
-         
           try{
                const logs = await axios.get('http://localhost:3000/ip/backlog');
                
@@ -69,7 +67,7 @@
 
           } catch(e) {
               console.error(e);
-              result.innerHTML = `<div class="alert alert-danger">Can't Fetch Data</div>`
+              backlog.innerHTML = `<div class="alert">${e}</div>`
           }
       })
       
