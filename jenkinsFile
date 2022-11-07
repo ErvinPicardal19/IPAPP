@@ -5,23 +5,9 @@ pipeline {
     }
     stages {
         stage('Preperation') {
-            steps{
-                script {
-                    def jobBuild = build job: 'DEPLOY_IPAPP', propagate: false
-
-                    def jobResult = jobBuild.getResult()
-
-                    echo "Build of 'DEPLOY_IPAPP' returned result: ${jobResult}"
-
-                    buildResults['DEPLOY_IPAPP'] = jobResult
-
-                    if (jobResult != 'SUCCESS') {
-                        error("DEPLOY_IPAPP failed with result: ${jobResult}")
-                    } else {
-                        sh 'docker stop samplerunning'
-                        sh 'docker rm samplerunning'
-                    }
-                }
+            steps {
+                sh 'docker stop samplerunning'
+                sh 'docker rm samplerunning'
             }
         }
         stage('Build') {
