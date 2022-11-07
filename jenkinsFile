@@ -1,16 +1,29 @@
+def buildResults = [:]
+
 pipeline {
     agent any
     triggers {
         pollSCM '* * * * *'
     }
     stages {
-        stage('Preparation') {
-            catchError(buildResult: 'SUCCESS') {
-                steps {
-                    sh 'docker stop samplerunning'
-                    sh 'docker rm samplerunning'
+            script {
+                    def jobBuild = build job: 'DEPLOY_IPAPP', propagate: false
+
+                    def jobResult = jobBuild.getResult()
+
+                    echo "Build of 'testJob' returned result: ${jobResult}"
+
+                    buildResults['DEPLOY_IPAPP'] = jobResult
+
+                    if (jobResult != 'SUCCESS') {
+                        error("DEPLOY_IPAPP failed with result: ${jobResult}")
+                    } else {
+                        sh 'docker stop samplerunning'
+                        sh 'docker rm samplerunning'
+                    }
                 }
             }
+            
         }
         stage('Build') {
             steps {
