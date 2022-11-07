@@ -5,9 +5,11 @@ pipeline {
     }
     stages {
         stage('Preparation') {
-            steps {
-                sh 'docker stop samplerunning'
-                sh 'docker rm samplerunning'
+            catchError(buildResult: 'SUCCESS') {
+                steps {
+                    sh 'docker stop samplerunning'
+                    sh 'docker rm samplerunning'
+                }
             }
         }
         stage('Build') {
