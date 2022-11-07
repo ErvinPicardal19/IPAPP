@@ -23,10 +23,6 @@ class ApiTest(unittest.TestCase):
          self.assertEqual(rv.status, '429 TOO MANY REQUESTS')
          return
       self.assertEqual(rv.status, '200 OK')
-      
-   def test_get_backlog(self):
-      rv = self.app.get('/ip/backlog')
-      self.assertEqual(rv.status, '200 OK')
 
 
 if __name__ == '__main__':

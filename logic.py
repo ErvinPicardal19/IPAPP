@@ -44,7 +44,7 @@ class printBackLog(Resource):
       reqLog(request.path, request.method)
       # Update Backlog
       backlog=[]  
-      with open ('./logs/backlog.json', 'r') as jsonLog:
+      with open ('/home/IPAPP/logs/backlog.json', 'r') as jsonLog:
          backlog = json.loads(jsonLog.readline())
       
       # Response
