@@ -26,7 +26,8 @@ echo "COPY  logic.py /home/IPAPP/" >> build/Dockerfile
 echo "COPY  requirements.txt /home/IPAPP/" >> build/Dockerfile
 
 echo "EXPOSE 3000" >> build/Dockerfile
-echo "CMD python3 /home/IPAPP/server.py" >> build/Dockerfile
+echo "CMD cd /home/IPAPP/"
+echo "CMD python3 server.py" >> build/Dockerfile
 
 cd build
 docker build -t sampleapp .

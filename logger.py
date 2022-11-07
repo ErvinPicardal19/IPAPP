@@ -6,7 +6,7 @@ def reqLog(path, method):
    today = str(datetime.now())
    logItem = f'{today}\t{method}\t{path}'
    try:
-      with open ('/home/IPAPP/logs/logRequest.log', 'a+') as writeLog:
+      with open ('./logs/logRequest.log', 'a+') as writeLog:
          writeLog.write(logItem+"\n")
    except:
       print("Cannot write to file logRequest.log")
@@ -15,7 +15,7 @@ def reqLog(path, method):
 def backLogs(data,path,method):
    backlog=[]
    try:
-      with open ('/home/IPAPP/logs/backlog.json', 'r') as jsonLog:
+      with open ('./logs/backlog.json', 'r') as jsonLog:
          backlog = json.loads(jsonLog.readline())
    except:
          print("Cannot read file backlog.json")
@@ -36,7 +36,7 @@ def backLogs(data,path,method):
    backlog.append(newBackLog)
    
    try:
-      with open ('/home/IPAPP/logs/backlog.json', 'w') as writeBackLog:
+      with open ('./logs/backlog.json', 'w') as writeBackLog:
          writeBackLog.write(json.dumps(backlog))
    except:
       print("Cannot write to file backlog.json")
